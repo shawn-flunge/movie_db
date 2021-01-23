@@ -7,7 +7,7 @@ class MovieProvider with ChangeNotifier{
 
   MovieModel selectedMovie;
 
-  Future<void> movieSelect(MovieModel movie){
+  movieSelect(MovieModel movie){
     this.selectedMovie=movie;
     notifyListeners();
   }

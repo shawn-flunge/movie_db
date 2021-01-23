@@ -8,7 +8,6 @@ import 'package:movie_db/pages/detail_page.dart';
 import 'package:movie_db/models/movie.dart';
 import 'package:movie_db/providers/movie_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 
 
 
@@ -113,7 +112,6 @@ class CustomCardVertical extends StatelessWidget{
                       children: [
                         Expanded(
                           flex: 1,
-                          // margin: EdgeInsets.symmetric(vertical: 30),
                           child:Align(
                             alignment: FractionalOffset(0.0, 1.0),
                             child: Builder(

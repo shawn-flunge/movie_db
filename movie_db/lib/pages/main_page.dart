@@ -25,9 +25,7 @@ class MainPageState extends State<MainPage>{
       ApiKeys(API_KEY,AUTH_TOKEN),
       logConfig: ConfigLogger.showNone()
     );
-    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
-    // print(await tmdb.v3.movies.getPouplar());
-    
+
     var jsonData = await tmdb.v3.movies.getNowPlaying(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
     
@@ -71,9 +69,7 @@ class MainPageState extends State<MainPage>{
       ApiKeys(API_KEY,AUTH_TOKEN),
       logConfig: ConfigLogger.showNone()
     );
-    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
-    // print(await tmdb.v3.movies.getPouplar());
-    
+ 
     var jsonData = await tmdb.v3.movies.getUpcoming(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
 
@@ -116,9 +112,7 @@ class MainPageState extends State<MainPage>{
       ApiKeys(API_KEY,AUTH_TOKEN),
       logConfig: ConfigLogger.showNone()
     );
-    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
-    // print(await tmdb.v3.movies.getPouplar());
-    
+
     var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
 
@@ -161,9 +155,7 @@ class MainPageState extends State<MainPage>{
       ApiKeys(API_KEY,AUTH_TOKEN),
       logConfig: ConfigLogger.showNone()
     );
-    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
-    // print(await tmdb.v3.movies.getPouplar());
-    
+
     var jsonData = await tmdb.v3.movies.getTopRated(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
 
@@ -210,7 +202,7 @@ class MainPageState extends State<MainPage>{
     return false;
   }
 
-  checkcheck() async{
+  checkInternetConnected() async{
     if(!await check())
       showDialog(
         context: context,
@@ -232,8 +224,7 @@ class MainPageState extends State<MainPage>{
   @override
   Widget build(BuildContext context) {
     MovieProvider movieProvider= Provider.of<MovieProvider>(context);
-    checkcheck();
-
+    checkInternetConnected();
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -356,7 +347,6 @@ class MainPageState extends State<MainPage>{
       itemBuilder: (context, index){
         return Container(
           margin: EdgeInsets.all(10),
-          //child: Text(lists[index].title),
           child: CustomCardVertical(lists[index]),
         );
       },

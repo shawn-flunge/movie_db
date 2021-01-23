@@ -8,7 +8,6 @@ import 'package:movie_db/models/actor.dart';
 import 'package:movie_db/models/movie.dart';
 import 'package:movie_db/models/review.dart';
 import 'package:movie_db/providers/movie_provider.dart';
-import 'package:movie_db/widgets/custom_card.dart';
 import 'package:provider/provider.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
@@ -125,7 +124,6 @@ class DetailPageState extends State<DetailPage>{
                   ),
                 ),
                 Container(
-                  // height: 40,
                   margin: EdgeInsets.symmetric(vertical: 5),
                   child:Row(
                     children: [
@@ -183,13 +181,9 @@ class DetailPageState extends State<DetailPage>{
       ApiKeys(API_KEY,AUTH_TOKEN),
       logConfig: ConfigLogger.showNone()
     );
-    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
-    // print(await tmdb.v3.movies.getPouplar());
-    
-    // var jsonData = await tmdb.v3.movies.getNowPlaying(language: 'ko',region: 'KR');
+
     var jsonData = await tmdb.v3.movies.getCredits(model.id);
     var dynamicList = jsonData['cast'];
-    // print(dynamicList.runtimeType);
 
     List<ActorModel> lists = List<ActorModel>();
 

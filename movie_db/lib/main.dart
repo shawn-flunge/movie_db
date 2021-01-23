@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movie_db/const.dart';
-import 'package:movie_db/models/movie.dart';
-import 'package:movie_db/pages/detail_page.dart';
 import 'package:movie_db/pages/main_page.dart';
 import 'package:movie_db/providers/movie_provider.dart';
-import 'package:movie_db/widgets/custom_card.dart';
 import 'package:provider/provider.dart';
-import 'package:tmdb_api/tmdb_api.dart';
+
 
 
 void main() {
