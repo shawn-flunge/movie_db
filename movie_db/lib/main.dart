@@ -30,16 +30,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
 
-  fetchNowPlayingMovie() async{
+  Future<List<MovieModel>> fetchNowPlayingMovie() async{
 
     TMDB tmdb = TMDB(
       ApiKeys(API_KEY,AUTH_TOKEN),
@@ -48,86 +41,13 @@ class _MyHomePageState extends State<MyHomePage> {
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());
     
-    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko',region: 'KR');
-    var dynamicList = jsonData['results'];
-
-    List<MovieModel> lists = List<MovieModel>();
-
-    for(int i=0;i<dynamicList.length;i++){
-      lists.add(
-        MovieModel(
-          adult: dynamicList[i]['adult'],
-          backdropPath: dynamicList[i]['backdrop_path'],
-          id: dynamicList[i]['id'],
-          originalLanguage: dynamicList[i]['original_language'],
-          originalTitle: dynamicList[i]['original_title'],
-          overview: dynamicList[i]['overview'],
-          popularity: dynamicList[i]['popularity'],
-          posterPath: dynamicList[i]['poster_path'],
-          releaseDate: dynamicList[i]['release_date'],
-          title: dynamicList[i]['title'],
-          video: dynamicList[i]['video'],
-          voteAverage: dynamicList[i]['vote_average'],
-          voteCount: dynamicList[i]['vote_count']
-        )
-      );
-    }
-    
-  }
-
-  fetchUpComingMovie() async{
-
-    TMDB tmdb = TMDB(
-      ApiKeys(API_KEY,AUTH_TOKEN),
-      logConfig: ConfigLogger.showAll()
-    );
-    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
-    // print(await tmdb.v3.movies.getPouplar());
-    
-    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko',region: 'KR');
-    var dynamicList = jsonData['results'];
-
-    List<MovieModel> lists = List<MovieModel>();
-
-    for(int i=0;i<dynamicList.length;i++){
-      lists.add(
-        MovieModel(
-          adult: dynamicList[i]['adult'],
-          backdropPath: dynamicList[i]['backdrop_path'],
-          id: dynamicList[i]['id'],
-          originalLanguage: dynamicList[i]['original_language'],
-          originalTitle: dynamicList[i]['original_title'],
-          overview: dynamicList[i]['overview'],
-          popularity: dynamicList[i]['popularity'],
-          posterPath: dynamicList[i]['poster_path'],
-          releaseDate: dynamicList[i]['release_date'],
-          title: dynamicList[i]['title'],
-          video: dynamicList[i]['video'],
-          voteAverage: dynamicList[i]['vote_average'],
-          voteCount: dynamicList[i]['vote_count']
-        )
-      );
-    }
-    
-  }
-
-  fetchPopularMovie() async{
-
-    TMDB tmdb = TMDB(
-      ApiKeys(API_KEY,AUTH_TOKEN),
-      logConfig: ConfigLogger.showAll()
-    );
-    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
-    // print(await tmdb.v3.movies.getPouplar());
-    
-    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko',region: 'KR');
+    var jsonData = await tmdb.v3.movies.getNowPlaying(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
 
     List<MovieModel> lists = List<MovieModel>();
 
     for(int i=0;i<dynamicList.length;i++){
       List<int> genreIds=List<int>.from(dynamicList[i]['genre_ids']);
-
       lists.add(
         MovieModel(
           adult: dynamicList[i]['adult'],
@@ -146,15 +66,11 @@ class _MyHomePageState extends State<MyHomePage> {
           genreIds: genreIds
         )
       );
-      print(lists[i].genreIds);
-      
     }
-
-
-    
+    return lists;
   }
 
-  fetchTopRatedMovie() async{
+  Future<List<MovieModel>> fetchUpComingMovie() async{
 
     TMDB tmdb = TMDB(
       ApiKeys(API_KEY,AUTH_TOKEN),
@@ -163,12 +79,13 @@ class _MyHomePageState extends State<MyHomePage> {
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());
     
-    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko',region: 'KR');
+    var jsonData = await tmdb.v3.movies.getUpcoming(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
 
     List<MovieModel> lists = List<MovieModel>();
 
     for(int i=0;i<dynamicList.length;i++){
+      List<int> genreIds=List<int>.from(dynamicList[i]['genre_ids']);
       lists.add(
         MovieModel(
           adult: dynamicList[i]['adult'],
@@ -183,11 +100,88 @@ class _MyHomePageState extends State<MyHomePage> {
           title: dynamicList[i]['title'],
           video: dynamicList[i]['video'],
           voteAverage: dynamicList[i]['vote_average'],
-          voteCount: dynamicList[i]['vote_count']
+          voteCount: dynamicList[i]['vote_count'],
+          genreIds: genreIds
         )
       );
     }
+    return lists;
+  }
+
+  Future<List<MovieModel>> fetchPopularMovie() async{
+
+    TMDB tmdb = TMDB(
+      ApiKeys(API_KEY,AUTH_TOKEN),
+      logConfig: ConfigLogger.showAll()
+    );
+    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
+    // print(await tmdb.v3.movies.getPouplar());
     
+    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko',region: 'KR');
+    var dynamicList = jsonData['results'];
+
+    List<MovieModel> lists = List<MovieModel>();
+
+    for(int i=0;i<dynamicList.length;i++){
+      List<int> genreIds=List<int>.from(dynamicList[i]['genre_ids']);
+      lists.add(
+        MovieModel(
+          adult: dynamicList[i]['adult'],
+          backdropPath: dynamicList[i]['backdrop_path'],
+          id: dynamicList[i]['id'],
+          originalLanguage: dynamicList[i]['original_language'],
+          originalTitle: dynamicList[i]['original_title'],
+          overview: dynamicList[i]['overview'],
+          popularity: dynamicList[i]['popularity'],
+          posterPath: dynamicList[i]['poster_path'],
+          releaseDate: dynamicList[i]['release_date'],
+          title: dynamicList[i]['title'],
+          video: dynamicList[i]['video'],
+          voteAverage: dynamicList[i]['vote_average'],
+          voteCount: dynamicList[i]['vote_count'],
+          genreIds: genreIds
+        )
+      );
+    }
+    return lists;
+  }
+
+  Future<List<MovieModel>> fetchTopRatedMovie() async{
+
+    TMDB tmdb = TMDB(
+      ApiKeys(API_KEY,AUTH_TOKEN),
+      logConfig: ConfigLogger.showAll()
+    );
+    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
+    // print(await tmdb.v3.movies.getPouplar());
+    
+    var jsonData = await tmdb.v3.movies.getTopRated(language: 'ko',region: 'KR');
+    var dynamicList = jsonData['results'];
+
+    List<MovieModel> lists = List<MovieModel>();
+
+    for(int i=0;i<dynamicList.length;i++){
+      List<int> genreIds=List<int>.from(dynamicList[i]['genre_ids']);
+      lists.add(
+        MovieModel(
+          adult: dynamicList[i]['adult'],
+          backdropPath: dynamicList[i]['backdrop_path'],
+          id: dynamicList[i]['id'],
+          originalLanguage: dynamicList[i]['original_language'],
+          originalTitle: dynamicList[i]['original_title'],
+          overview: dynamicList[i]['overview'],
+          popularity: dynamicList[i]['popularity'],
+          posterPath: dynamicList[i]['poster_path'],
+          releaseDate: dynamicList[i]['release_date'],
+          title: dynamicList[i]['title'],
+          video: dynamicList[i]['video'],
+          voteAverage: dynamicList[i]['vote_average'],
+          voteCount: dynamicList[i]['vote_count'],
+          genreIds: genreIds
+        )
+      );
+    }
+    return lists;
   }
 
 
@@ -209,25 +203,129 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[          
+            Column(
+              children: [
+                textWidget('현재 상영중',35),
+                Container(
+                  height: 400,
+                  color: Colors.pink,
+                  child:FutureBuilder<List<MovieModel>>(
+                    future: fetchNowPlayingMovie(),
+                    builder: (context, snapshot){
+                      return snapshot.hasData ? horizontalListView(snapshot.data) : CircularProgressIndicator();
+                    },
+                  )
+                )
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            Padding(
+              padding: EdgeInsets.all(100),
             ),
+            Column(
+              children: [
+                textWidget('개봉 예정',35),
+                Container(
+                  height: 400,
+                  color: Colors.pink,
+                  child:FutureBuilder<List<MovieModel>>(
+                    future: fetchUpComingMovie(),
+                    builder: (context, snapshot){
+                      return snapshot.hasData ? verticalListView(snapshot.data) : CircularProgressIndicator();
+                    },
+                  )
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.all(100),
+            ),
+            Column(
+              children: [
+                textWidget('인기',35),
+                Container(
+                  height: 400,
+                  color: Colors.pink,
+                  child:FutureBuilder<List<MovieModel>>(
+                    future: fetchPopularMovie(),
+                    builder: (context, snapshot){
+                      return snapshot.hasData ? verticalListView(snapshot.data) : CircularProgressIndicator();
+                    },
+                  )
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.all(100),
+            ),
+            Column(
+              children: [
+                textWidget('높은 평점',35),
+                Container(
+                  height: 400,
+                  color: Colors.pink,
+                  child:FutureBuilder<List<MovieModel>>(
+                    future: fetchTopRatedMovie(),
+                    builder: (context, snapshot){
+                      return snapshot.hasData ? verticalListView(snapshot.data) : CircularProgressIndicator();
+                    },
+                  )
+                )
+              ],
+            ),
+
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+    );
+  }
+
+  Widget textWidget(String text, double size){
+    return Text(
+      text,
+      style: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+        fontSize: size
       ),
     );
   }
+
+  Widget horizontalListView(List<MovieModel> lists){
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: lists.length,
+      itemBuilder: (context, index){
+        return Container(
+          color: Colors.purple,
+          margin: EdgeInsets.all(10),
+          child: Text(lists[index].title),
+        );
+      },
+    );
+  }
+
+
+  Widget verticalListView(List<MovieModel> lists){
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: lists.length,
+      itemBuilder: (context, index){
+        return Container(
+          color: Colors.purple,
+          margin: EdgeInsets.all(10),
+          child: Text(lists[index].title),
+        );
+      },
+    );
+  }
+
+  
+
+
+
+
 }
