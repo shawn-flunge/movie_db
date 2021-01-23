@@ -79,6 +79,7 @@ class CustomCardVertical extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     Image image = Image.network('https://image.tmdb.org/t/p/w185${model.posterPath}',fit: BoxFit.fill,height: 150,);
+    MovieProvider movieProvider = Provider.of<MovieProvider>(context);
     
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -142,7 +143,8 @@ class CustomCardVertical extends StatelessWidget{
           ],
         ),
         onTap: (){
-
+          movieProvider.movieSelect(model);
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage()));
         },
       ),
       

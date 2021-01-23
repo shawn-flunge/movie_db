@@ -224,103 +224,90 @@ class _MyHomePageState extends State<MyHomePage> {
     return lists;
   }
 
-
-
-  // @override
-  // void initState() {
-  //   fetchPopularMovie();
-  //   super.initState();
-    
-  // }
-
-  
-
   @override
   Widget build(BuildContext context) {
-
-    // fetchPopularMovie();
-    // fetchMovie2();
     MovieProvider movieProvider= Provider.of<MovieProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[          
-            Column(
-              children: [
-                textWidget('현재 상영중',35),
-                Container(
-                  height: 400,
-                  color: Colors.pink,
-                  child:FutureBuilder<List<MovieModel>>(
-                    future: fetchNowPlayingMovie(),
-                    builder: (context, snapshot){
-                      return snapshot.hasData ? horizontalListView(snapshot.data,movieProvider) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
-                    },
+        child: Container(
+          margin: EdgeInsets.fromLTRB(15, 100, 15, 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            
+            children: <Widget>[          
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  textWidget('현재 상영중',35),
+                  Container(
+                    height: 400,
+                    child:FutureBuilder<List<MovieModel>>(
+                      future: fetchNowPlayingMovie(),
+                      builder: (context, snapshot){
+                        return snapshot.hasData ? horizontalListView(snapshot.data,movieProvider) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
+                      },
+                    )
                   )
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(100),
-            ),
-            Column(
-              children: [
-                textWidget('개봉 예정',35),
-                Container(
-                  height: 400,
-                  color: Colors.pink,
-                  child:FutureBuilder<List<MovieModel>>(
-                    future: fetchUpComingMovie(),
-                    builder: (context, snapshot){
-                      return snapshot.hasData ? verticalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
-                    },
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 50),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  textWidget('개봉 예정',35),
+                  Container(
+                    height: 400,
+                    child:FutureBuilder<List<MovieModel>>(
+                      future: fetchUpComingMovie(),
+                      builder: (context, snapshot){
+                        return snapshot.hasData ? verticalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
+                      },
+                    )
                   )
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(100),
-            ),
-            Column(
-              children: [
-                textWidget('인기',35),
-                Container(
-                  height: 400,
-                  color: Colors.pink,
-                  child:FutureBuilder<List<MovieModel>>(
-                    future: fetchPopularMovie(),
-                    builder: (context, snapshot){
-                      return snapshot.hasData ? verticalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
-                    },
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 30),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  textWidget('인기',35),
+                  Container(
+                    height: 400,
+                    child:FutureBuilder<List<MovieModel>>(
+                      future: fetchPopularMovie(),
+                      builder: (context, snapshot){
+                        return snapshot.hasData ? verticalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
+                      },
+                    )
                   )
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(100),
-            ),
-            Column(
-              children: [
-                textWidget('높은 평점',35),
-                Container(
-                  height: 400,
-                  color: Colors.pink,
-                  child:FutureBuilder<List<MovieModel>>(
-                    future: fetchTopRatedMovie(),
-                    builder: (context, snapshot){
-                      return snapshot.hasData ? verticalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
-                    },
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 30),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  textWidget('높은 평점',35),
+                  Container(
+                    height: 400,
+                    child:FutureBuilder<List<MovieModel>>(
+                      future: fetchTopRatedMovie(),
+                      builder: (context, snapshot){
+                        return snapshot.hasData ? verticalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
+                      },
+                    )
                   )
-                )
-              ],
-            ),
+                ],
+              ),
 
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -361,7 +348,6 @@ class _MyHomePageState extends State<MyHomePage> {
       itemCount: lists.length,
       itemBuilder: (context, index){
         return Container(
-          color: Colors.purple,
           margin: EdgeInsets.all(10),
           //child: Text(lists[index].title),
           child: CustomCardVertical(lists[index]),
