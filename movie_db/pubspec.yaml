@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.1
   dio: ^3.0.10
   tmdb_api: ^1.2.4
+  provider: ^4.3.3
 
 dev_dependencies:
   flutter_test:

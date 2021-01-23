@@ -1,12 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_db/const.dart';
-import 'package:movie_db/models/MovieModel.dart';
-import 'package:movie_db/widgets/CustomCard.dart';
+import 'package:movie_db/models/movie.dart';
+import 'package:movie_db/pages/detail_page.dart';
+import 'package:movie_db/providers/movie_provider.dart';
+import 'package:movie_db/widgets/custom_card.dart';
+import 'package:provider/provider.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<MovieProvider>(create: (context)=> MovieProvider())
+      ],
+      child: MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -223,11 +233,14 @@ class _MyHomePageState extends State<MyHomePage> {
     
   // }
 
+  
+
   @override
   Widget build(BuildContext context) {
 
     // fetchPopularMovie();
     // fetchMovie2();
+    MovieProvider movieProvider= Provider.of<MovieProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -246,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child:FutureBuilder<List<MovieModel>>(
                     future: fetchNowPlayingMovie(),
                     builder: (context, snapshot){
-                      return snapshot.hasData ? horizontalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
+                      return snapshot.hasData ? horizontalListView(snapshot.data,movieProvider) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
                     },
                   )
                 )
@@ -324,14 +337,18 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget horizontalListView(List<MovieModel> lists){
+  Widget horizontalListView(List<MovieModel> lists, MovieProvider movieProvider){
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: lists.length,
       itemBuilder: (context, index){
         return Container(
           margin: EdgeInsets.all(10),
-          child:CustomCardHorizontal(lists[index])
+          child:CustomCardHorizontal(lists[index],)
+          // (){
+          //   movieProvider.movieSelect(lists[index]);
+          //   Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage()));
+          // })
         );
       },
     );
@@ -352,41 +369,6 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
-
-  Widget card11(MovieModel model){
-    Image image = Image.network('https://image.tmdb.org/t/p/w185${model.posterPath}',fit: BoxFit.fill,height: 300,);
-    
-    return CustomCardHorizontal(model);
-    // return Card(
-    //   clipBehavior: Clip.antiAlias,
-    //   child: Column(
-    //     children: [
-    //       InkWell(
-    //         child: Container(
-    //           height: image.height,
-    //           child: ClipRRect(
-    //             borderRadius: BorderRadius.circular(15),
-    //             child: image,
-    //           ),
-    //         ),
-    //         onTap: (){print('gg');},
-    //       ),
-    //       Expanded(
-    //         child: Container(         
-    //           child:Column(
-    //             children: [
-    //               Text('gg'),
-    //               Text('ggg')
-    //             ],
-    //           )
-    //         ),
-    //       )
-    //     ],
-    //   ),
-    // );
-
-  }
-
 
 
 

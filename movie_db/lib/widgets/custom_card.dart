@@ -4,7 +4,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_db/const.dart';
-import 'package:movie_db/models/MovieModel.dart';
+import 'package:movie_db/pages/detail_page.dart';
+import 'package:movie_db/models/movie.dart';
+import 'package:movie_db/providers/movie_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 
@@ -12,12 +15,15 @@ import 'package:tmdb_api/tmdb_api.dart';
 class CustomCardHorizontal extends StatelessWidget{
 
   final MovieModel model;
+  // final Function callback;
   CustomCardHorizontal(this.model);
 
  
 
   @override
   Widget build(BuildContext context) {
+    MovieProvider movieProvider = Provider.of<MovieProvider>(context);
+
     Image image = Image.network('https://image.tmdb.org/t/p/w185${model.posterPath}',fit: BoxFit.fill,height: 300,);
 
     return Card(
@@ -29,11 +35,16 @@ class CustomCardHorizontal extends StatelessWidget{
               height: image.height,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: image,
+                child: Hero(
+                  tag:'${model.posterPath}',
+                  child: Image.network('https://image.tmdb.org/t/p/w185${model.posterPath}',fit: BoxFit.fill,height: 300,),
+                ),
               ),
             ),
+            // onTap: callback,
             onTap: (){
-              print('gg');
+              movieProvider.movieSelect(model);
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage()));
             },
           ),
           Expanded(
