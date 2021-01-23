@@ -1,8 +1,10 @@
 
 
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:movie_db/const.dart';
 import 'package:movie_db/models/movie.dart';
 import 'package:movie_db/providers/movie_provider.dart';
@@ -198,9 +200,40 @@ class MainPageState extends State<MainPage>{
     return lists;
   }
 
+  Future<bool> check() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile) {
+      return true;
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    }
+    return false;
+  }
+
+  checkcheck() async{
+    if(!await check())
+      showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: Text('인터넷 연결'),
+            content: Text('인터넷이 연결되어 있지 않습니다.'),
+            actions: [
+              FlatButton(
+                child:Text('종료'),
+                onPressed: ()=> SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+              )
+            ],
+          );
+        }
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     MovieProvider movieProvider= Provider.of<MovieProvider>(context);
+    checkcheck();
+
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -215,6 +248,7 @@ class MainPageState extends State<MainPage>{
                 children: [
                   textWidget('현재 상영중',35),
                   Container(
+                    alignment: Alignment.center,
                     height: 400,
                     child:FutureBuilder<List<MovieModel>>(
                       future: fetchNowPlayingMovie(),
@@ -233,6 +267,7 @@ class MainPageState extends State<MainPage>{
                 children: [
                   textWidget('개봉 예정',35),
                   Container(
+                    alignment: Alignment.center,
                     height: 400,
                     child:FutureBuilder<List<MovieModel>>(
                       future: fetchUpComingMovie(),
@@ -251,6 +286,7 @@ class MainPageState extends State<MainPage>{
                 children: [
                   textWidget('인기',35),
                   Container(
+                    alignment: Alignment.center,
                     height: 400,
                     child:FutureBuilder<List<MovieModel>>(
                       future: fetchPopularMovie(),
@@ -270,6 +306,7 @@ class MainPageState extends State<MainPage>{
                   textWidget('높은 평점',35),
                   Container(
                     height: 400,
+                    alignment: Alignment.center,
                     child:FutureBuilder<List<MovieModel>>(
                       future: fetchTopRatedMovie(),
                       builder: (context, snapshot){
