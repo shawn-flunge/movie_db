@@ -2,37 +2,40 @@
 
 class MovieModel{
 
-  int vote_count;
+  int voteCount;
   int id;
   bool video;
-  var vote_average;
+  var voteAverage;
   String title;
   double popularity;
-  String poster_path;
-  String original_language;
-  String original_title;
-  String backdrop_path;
+  String posterPath;
+  String originalLanguage;
+  String originalTitle;
+  String backdropPath;
   bool adult;
   String overview;
-  String release_date;
+  String releaseDate;
+  List<int> genreIds; 
 
-  MovieModel(
-    {
-      this.adult,
-    this.backdrop_path,
+  MovieModel({
+    this.adult,
+    this.backdropPath,
     this.id,
-    this.original_language,
-    this.original_title,
+    this.originalLanguage,
+    this.originalTitle,
     this.overview,
     this.popularity,
-    this.poster_path,
-    this.release_date,
+    this.posterPath,
+    this.releaseDate,
     this.title,
     this.video,
-    this.vote_average,
-    this.vote_count
-    }
-  );
+    this.voteAverage,
+    this.voteCount,
+    this.genreIds
+  });
+
+
+    
 
   // MovieModel(
   //   this._adult,

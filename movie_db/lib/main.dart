@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());
     
-    var jsonData = await tmdb.v3.movies.getNowPlaying(language: 'ko');
+    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
 
     List<MovieModel> lists = List<MovieModel>();
@@ -57,18 +57,18 @@ class _MyHomePageState extends State<MyHomePage> {
       lists.add(
         MovieModel(
           adult: dynamicList[i]['adult'],
-          backdrop_path: dynamicList[i]['backdrop_path'],
+          backdropPath: dynamicList[i]['backdrop_path'],
           id: dynamicList[i]['id'],
-          original_language: dynamicList[i]['original_language'],
-          original_title: dynamicList[i]['original_title'],
+          originalLanguage: dynamicList[i]['original_language'],
+          originalTitle: dynamicList[i]['original_title'],
           overview: dynamicList[i]['overview'],
           popularity: dynamicList[i]['popularity'],
-          poster_path: dynamicList[i]['poster_path'],
-          release_date: dynamicList[i]['release_date'],
+          posterPath: dynamicList[i]['poster_path'],
+          releaseDate: dynamicList[i]['release_date'],
           title: dynamicList[i]['title'],
           video: dynamicList[i]['video'],
-          vote_average: dynamicList[i]['vote_average'],
-          vote_count: dynamicList[i]['vote_count']
+          voteAverage: dynamicList[i]['vote_average'],
+          voteCount: dynamicList[i]['vote_count']
         )
       );
     }
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());
     
-    var jsonData = await tmdb.v3.movies.getUpcoming(language: 'ko');
+    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
 
     List<MovieModel> lists = List<MovieModel>();
@@ -93,18 +93,18 @@ class _MyHomePageState extends State<MyHomePage> {
       lists.add(
         MovieModel(
           adult: dynamicList[i]['adult'],
-          backdrop_path: dynamicList[i]['backdrop_path'],
+          backdropPath: dynamicList[i]['backdrop_path'],
           id: dynamicList[i]['id'],
-          original_language: dynamicList[i]['original_language'],
-          original_title: dynamicList[i]['original_title'],
+          originalLanguage: dynamicList[i]['original_language'],
+          originalTitle: dynamicList[i]['original_title'],
           overview: dynamicList[i]['overview'],
           popularity: dynamicList[i]['popularity'],
-          poster_path: dynamicList[i]['poster_path'],
-          release_date: dynamicList[i]['release_date'],
+          posterPath: dynamicList[i]['poster_path'],
+          releaseDate: dynamicList[i]['release_date'],
           title: dynamicList[i]['title'],
           video: dynamicList[i]['video'],
-          vote_average: dynamicList[i]['vote_average'],
-          vote_count: dynamicList[i]['vote_count']
+          voteAverage: dynamicList[i]['vote_average'],
+          voteCount: dynamicList[i]['vote_count']
         )
       );
     }
@@ -120,30 +120,37 @@ class _MyHomePageState extends State<MyHomePage> {
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());
     
-    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko');
+    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
 
     List<MovieModel> lists = List<MovieModel>();
 
     for(int i=0;i<dynamicList.length;i++){
+      List<int> genreIds=List<int>.from(dynamicList[i]['genre_ids']);
+
       lists.add(
         MovieModel(
           adult: dynamicList[i]['adult'],
-          backdrop_path: dynamicList[i]['backdrop_path'],
+          backdropPath: dynamicList[i]['backdrop_path'],
           id: dynamicList[i]['id'],
-          original_language: dynamicList[i]['original_language'],
-          original_title: dynamicList[i]['original_title'],
+          originalLanguage: dynamicList[i]['original_language'],
+          originalTitle: dynamicList[i]['original_title'],
           overview: dynamicList[i]['overview'],
           popularity: dynamicList[i]['popularity'],
-          poster_path: dynamicList[i]['poster_path'],
-          release_date: dynamicList[i]['release_date'],
+          posterPath: dynamicList[i]['poster_path'],
+          releaseDate: dynamicList[i]['release_date'],
           title: dynamicList[i]['title'],
           video: dynamicList[i]['video'],
-          vote_average: dynamicList[i]['vote_average'],
-          vote_count: dynamicList[i]['vote_count']
+          voteAverage: dynamicList[i]['vote_average'],
+          voteCount: dynamicList[i]['vote_count'],
+          genreIds: genreIds
         )
       );
+      print(lists[i].genreIds);
+      
     }
+
+
     
   }
 
@@ -156,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());
     
-    var jsonData = await tmdb.v3.movies.getTopRated(language: 'ko');
+    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
 
     List<MovieModel> lists = List<MovieModel>();
@@ -165,18 +172,18 @@ class _MyHomePageState extends State<MyHomePage> {
       lists.add(
         MovieModel(
           adult: dynamicList[i]['adult'],
-          backdrop_path: dynamicList[i]['backdrop_path'],
+          backdropPath: dynamicList[i]['backdrop_path'],
           id: dynamicList[i]['id'],
-          original_language: dynamicList[i]['original_language'],
-          original_title: dynamicList[i]['original_title'],
+          originalLanguage: dynamicList[i]['original_language'],
+          originalTitle: dynamicList[i]['original_title'],
           overview: dynamicList[i]['overview'],
           popularity: dynamicList[i]['popularity'],
-          poster_path: dynamicList[i]['poster_path'],
-          release_date: dynamicList[i]['release_date'],
+          posterPath: dynamicList[i]['poster_path'],
+          releaseDate: dynamicList[i]['release_date'],
           title: dynamicList[i]['title'],
           video: dynamicList[i]['video'],
-          vote_average: dynamicList[i]['vote_average'],
-          vote_count: dynamicList[i]['vote_count']
+          voteAverage: dynamicList[i]['vote_average'],
+          voteCount: dynamicList[i]['vote_count']
         )
       );
     }
