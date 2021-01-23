@@ -1,8 +1,8 @@
 
 import 'package:flutter/cupertino.dart';
 
-const API_KEY = 'f1b8764686c655d84829e99bf3bbc305';
-const AUTH_TOKEN ='eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMWI4NzY0Njg2YzY1NWQ4NDgyOWU5OWJmM2JiYzMwNSIsInN1YiI6IjYwMGI4NzA1ZDcwNTk0MDAzZTFlOTRlYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.e7VJWIWJ-79xcRm6IY4x0pwT0pCMzOk_ToxG6k5ANuo';
+const API_KEY = 'your api key';
+const AUTH_TOKEN ='yout token';
 
 Map<int, Color> customColor =
 {
