@@ -187,17 +187,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-  @override
-  void initState() {
-    fetchPopularMovie();
-    super.initState();
+  // @override
+  // void initState() {
+  //   fetchPopularMovie();
+  //   super.initState();
     
-  }
+  // }
 
   @override
   Widget build(BuildContext context) {
 
-    fetchPopularMovie();
+    // fetchPopularMovie();
     // fetchMovie2();
 
     return Scaffold(
@@ -302,8 +302,7 @@ class _MyHomePageState extends State<MyHomePage> {
       itemBuilder: (context, index){
         return Container(
           margin: EdgeInsets.all(10),
-          // child: Text(lists[index].title),
-          child: card11(lists[index]),
+          child:CustomCardHorizontal(lists[index])
         );
       },
     );
@@ -318,7 +317,8 @@ class _MyHomePageState extends State<MyHomePage> {
         return Container(
           color: Colors.purple,
           margin: EdgeInsets.all(10),
-          child: Text(lists[index].title),
+          //child: Text(lists[index].title),
+          child: CustomCardVertical(lists[index]),
         );
       },
     );
