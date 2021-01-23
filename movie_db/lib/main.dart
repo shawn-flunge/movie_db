@@ -44,11 +44,19 @@ class _MyHomePageState extends State<MyHomePage> {
     
     var jsonData = await tmdb.v3.movies.getNowPlaying(language: 'ko',region: 'KR');
     var dynamicList = jsonData['results'];
-
+    
     List<MovieModel> lists = List<MovieModel>();
 
     for(int i=0;i<dynamicList.length;i++){
-      List<int> genreIds=List<int>.from(dynamicList[i]['genre_ids']);
+      
+      var jsonData = await tmdb.v3.movies.getDetails(dynamicList[i]['id'],language: 'ko');
+      var genresData = jsonData['genres'];
+
+      List<String> temp = List<String>();
+      for(int i=0;i<genresData.length;i++){
+        temp.add(genresData[i]['name']);  
+      }
+
       lists.add(
         MovieModel(
           adult: dynamicList[i]['adult'],
@@ -64,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
           video: dynamicList[i]['video'],
           voteAverage: dynamicList[i]['vote_average'],
           voteCount: dynamicList[i]['vote_count'],
-          genreIds: genreIds
+          genress: temp
         )
       );
     }
@@ -86,7 +94,14 @@ class _MyHomePageState extends State<MyHomePage> {
     List<MovieModel> lists = List<MovieModel>();
 
     for(int i=0;i<dynamicList.length;i++){
-      List<int> genreIds=List<int>.from(dynamicList[i]['genre_ids']);
+      var jsonData = await tmdb.v3.movies.getDetails(dynamicList[i]['id'],language: 'ko');
+      var genresData = jsonData['genres'];
+
+      List<String> temp = List<String>();
+      for(int i=0;i<genresData.length;i++){
+        temp.add(genresData[i]['name']);  
+      }
+
       lists.add(
         MovieModel(
           adult: dynamicList[i]['adult'],
@@ -102,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
           video: dynamicList[i]['video'],
           voteAverage: dynamicList[i]['vote_average'],
           voteCount: dynamicList[i]['vote_count'],
-          genreIds: genreIds
+          genress: temp
         )
       );
     }
@@ -124,7 +139,14 @@ class _MyHomePageState extends State<MyHomePage> {
     List<MovieModel> lists = List<MovieModel>();
 
     for(int i=0;i<dynamicList.length;i++){
-      List<int> genreIds=List<int>.from(dynamicList[i]['genre_ids']);
+      var jsonData = await tmdb.v3.movies.getDetails(dynamicList[i]['id'],language: 'ko');
+      var genresData = jsonData['genres'];
+
+      List<String> temp = List<String>();
+      for(int i=0;i<genresData.length;i++){
+        temp.add(genresData[i]['name']);  
+      }
+
       lists.add(
         MovieModel(
           adult: dynamicList[i]['adult'],
@@ -140,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
           video: dynamicList[i]['video'],
           voteAverage: dynamicList[i]['vote_average'],
           voteCount: dynamicList[i]['vote_count'],
-          genreIds: genreIds
+          genress: temp
         )
       );
     }
@@ -162,7 +184,14 @@ class _MyHomePageState extends State<MyHomePage> {
     List<MovieModel> lists = List<MovieModel>();
 
     for(int i=0;i<dynamicList.length;i++){
-      List<int> genreIds=List<int>.from(dynamicList[i]['genre_ids']);
+      var jsonData = await tmdb.v3.movies.getDetails(dynamicList[i]['id'],language: 'ko');
+      var genresData = jsonData['genres'];
+
+      List<String> temp = List<String>();
+      for(int i=0;i<genresData.length;i++){
+        temp.add(genresData[i]['name']);  
+      }
+
       lists.add(
         MovieModel(
           adult: dynamicList[i]['adult'],
@@ -178,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
           video: dynamicList[i]['video'],
           voteAverage: dynamicList[i]['vote_average'],
           voteCount: dynamicList[i]['vote_count'],
-          genreIds: genreIds
+          genress: temp
         )
       );
     }
@@ -217,7 +246,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child:FutureBuilder<List<MovieModel>>(
                     future: fetchNowPlayingMovie(),
                     builder: (context, snapshot){
-                      return snapshot.hasData ? horizontalListView(snapshot.data) : CircularProgressIndicator();
+                      return snapshot.hasData ? horizontalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
                     },
                   )
                 )
@@ -235,7 +264,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child:FutureBuilder<List<MovieModel>>(
                     future: fetchUpComingMovie(),
                     builder: (context, snapshot){
-                      return snapshot.hasData ? verticalListView(snapshot.data) : CircularProgressIndicator();
+                      return snapshot.hasData ? verticalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
                     },
                   )
                 )
@@ -253,7 +282,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child:FutureBuilder<List<MovieModel>>(
                     future: fetchPopularMovie(),
                     builder: (context, snapshot){
-                      return snapshot.hasData ? verticalListView(snapshot.data) : CircularProgressIndicator();
+                      return snapshot.hasData ? verticalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
                     },
                   )
                 )
@@ -271,7 +300,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child:FutureBuilder<List<MovieModel>>(
                     future: fetchTopRatedMovie(),
                     builder: (context, snapshot){
-                      return snapshot.hasData ? verticalListView(snapshot.data) : CircularProgressIndicator();
+                      return snapshot.hasData ? verticalListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
                     },
                   )
                 )

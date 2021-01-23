@@ -15,7 +15,7 @@ class MovieModel{
   bool adult;
   String overview;
   String releaseDate;
-  List<int> genreIds; 
+  List<String> genress;
 
   MovieModel({
     this.adult,
@@ -31,7 +31,7 @@ class MovieModel{
     this.video,
     this.voteAverage,
     this.voteCount,
-    this.genreIds
+    this.genress
   });
 
 
