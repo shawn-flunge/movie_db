@@ -15,10 +15,7 @@ import 'package:tmdb_api/tmdb_api.dart';
 class CustomCardHorizontal extends StatelessWidget{
 
   final MovieModel model;
-  // final Function callback;
   CustomCardHorizontal(this.model);
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +38,6 @@ class CustomCardHorizontal extends StatelessWidget{
                 ),
               ),
             ),
-            // onTap: callback,
             onTap: (){
               movieProvider.movieSelect(model);
               Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage()));

@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     TMDB tmdb = TMDB(
       ApiKeys(API_KEY,AUTH_TOKEN),
-      logConfig: ConfigLogger.showAll()
+      logConfig: ConfigLogger.showNone()
     );
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());
@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     TMDB tmdb = TMDB(
       ApiKeys(API_KEY,AUTH_TOKEN),
-      logConfig: ConfigLogger.showAll()
+      logConfig: ConfigLogger.showNone()
     );
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());
@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     TMDB tmdb = TMDB(
       ApiKeys(API_KEY,AUTH_TOKEN),
-      logConfig: ConfigLogger.showAll()
+      logConfig: ConfigLogger.showNone()
     );
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());
@@ -183,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     TMDB tmdb = TMDB(
       ApiKeys(API_KEY,AUTH_TOKEN),
-      logConfig: ConfigLogger.showAll()
+      logConfig: ConfigLogger.showNone()
     );
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());

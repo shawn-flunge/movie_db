@@ -51,6 +51,7 @@ flutter:
   assets:
     - assets/yellowStar.png
     - assets/greyStar.png
+    - assets/Adult.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
