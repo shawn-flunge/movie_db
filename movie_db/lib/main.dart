@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_db/const.dart';
-import 'package:movie_db/model/MovieModel.dart';
+import 'package:movie_db/models/MovieModel.dart';
+import 'package:movie_db/widgets/CustomCard.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 void main() {
@@ -300,9 +301,9 @@ class _MyHomePageState extends State<MyHomePage> {
       itemCount: lists.length,
       itemBuilder: (context, index){
         return Container(
-          color: Colors.purple,
           margin: EdgeInsets.all(10),
-          child: Text(lists[index].title),
+          // child: Text(lists[index].title),
+          child: card11(lists[index]),
         );
       },
     );
@@ -323,7 +324,39 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  
+  Widget card11(MovieModel model){
+    Image image = Image.network('https://image.tmdb.org/t/p/w185${model.posterPath}',fit: BoxFit.fill,height: 300,);
+    
+    return CustomCardHorizontal(model);
+    // return Card(
+    //   clipBehavior: Clip.antiAlias,
+    //   child: Column(
+    //     children: [
+    //       InkWell(
+    //         child: Container(
+    //           height: image.height,
+    //           child: ClipRRect(
+    //             borderRadius: BorderRadius.circular(15),
+    //             child: image,
+    //           ),
+    //         ),
+    //         onTap: (){print('gg');},
+    //       ),
+    //       Expanded(
+    //         child: Container(         
+    //           child:Column(
+    //             children: [
+    //               Text('gg'),
+    //               Text('ggg')
+    //             ],
+    //           )
+    //         ),
+    //       )
+    //     ],
+    //   ),
+    // );
+
+  }
 
 
 
