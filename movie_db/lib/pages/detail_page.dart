@@ -27,7 +27,8 @@ class DetailPageState extends State<DetailPage>{
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          expandedHeight: 200,
+          expandedHeight: 300,
+          stretch: true,
           flexibleSpace: FlexibleSpaceBar(
             background: Hero(
               tag:'${movieProvider.selectedMovie.posterPath}',
@@ -37,19 +38,19 @@ class DetailPageState extends State<DetailPage>{
               ),
             ),
             stretchModes: [
-              StretchMode.zoomBackground
+              StretchMode.zoomBackground,
+              StretchMode.blurBackground
             ],
           ),
         ),
-        // SliverList(
-        //   delegate: SliverChildListDelegate([
-        //     movieInfo(movieProvider.selectedMovie),
-        //   ]),
-        // ),
         SliverToBoxAdapter(
           child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color:Colors.white,
+            ),
             height: 1500,
-            color:Colors.teal,
+            
             child: Column(
               children: [
                 movieInfo(movieProvider.selectedMovie),
@@ -69,7 +70,6 @@ class DetailPageState extends State<DetailPage>{
 
     return Container(
       height: 250,
-      color: Colors.red,
       margin: EdgeInsets.all(20),
       child: Row(
         children: [
@@ -77,36 +77,25 @@ class DetailPageState extends State<DetailPage>{
             borderRadius: BorderRadius.circular(20),
             child: Image.network('https://image.tmdb.org/t/p/w185${model.posterPath}',fit: BoxFit.fill,height: 250,),
           ),
-          Padding(padding: EdgeInsets.symmetric(horizontal: 4)),
+          Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
           Expanded(
             child: Column(   
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  child: Text(model.title,
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
+                    model.title,
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.teal,
+                      color: Colors.black,
                       decoration: TextDecoration.none
                     ),
                   ),
                 ),
-                // Container(
-
-                //   child: Builder(
-                //     builder: (context){
-                //       print(model.adult);
-                //       if(model.adult)
-                //         return Image.asset('assets/Adult.png',height: 15,);
-                //       else
-                //         return Text('bb');
-
-                //     },
-                //   ),
-                // ),
-
+                Padding(padding: EdgeInsets.symmetric(vertical: 20)),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 30),
+                  margin: EdgeInsets.symmetric(vertical: 5),
                   child:Builder(
                     builder: (context){
                       var str ='';
@@ -117,7 +106,7 @@ class DetailPageState extends State<DetailPage>{
                         str,
                         style: TextStyle(
                           fontSize:18,
-                          color: Colors.teal,
+                          color: Colors.black45,
                           decoration: TextDecoration.none
                         ),
                       );
@@ -125,18 +114,19 @@ class DetailPageState extends State<DetailPage>{
                   )
                 ),
                 Container(
-
+                  margin: EdgeInsets.symmetric(vertical: 5),
                   child: Text(
                     model.releaseDate,
                     style: TextStyle(
                       fontSize: 18,
-                      color: Colors.teal,
+                      color: Colors.black45,
                       decoration: TextDecoration.none
                     ),
                   ),
                 ),
                 Container(
                   // height: 40,
+                  margin: EdgeInsets.symmetric(vertical: 5),
                   child:Row(
                     children: [
                       transferAverageToStar(model.voteAverage),
@@ -145,7 +135,7 @@ class DetailPageState extends State<DetailPage>{
                         model.voteAverage.toString(),
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.teal,
+                          color: Color.fromRGBO(255, 199, 0, 1),
                           decoration: TextDecoration.none
                         ),
                       )
@@ -162,24 +152,24 @@ class DetailPageState extends State<DetailPage>{
 
   Widget movieOverview(MovieModel model){
     return Container(
-      // height: 250,
-      color: Colors.red,
       margin: EdgeInsets.all(20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '개요',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 30,
               color: Colors.black,
               decoration: TextDecoration.none
             ),
           ),
+          Padding(padding: EdgeInsets.symmetric(vertical: 10),),
           Text(
             model.overview,
             style: TextStyle(
               fontSize: 18,
-              color: Colors.black,
+              color: Colors.black45,
               decoration: TextDecoration.none
             ),
           ),
@@ -221,15 +211,14 @@ class DetailPageState extends State<DetailPage>{
     
     return Container(
       height: 250,
-      color: Colors.red,
       margin: EdgeInsets.all(20),
       child: Column(  
-        
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '주요 출연진',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 30,
               color: Colors.black,
               decoration: TextDecoration.none
             ),
@@ -268,7 +257,6 @@ class DetailPageState extends State<DetailPage>{
   Widget actorInfo(ActorModel model){
     
     return Container(
-      color: Colors.blue,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -290,7 +278,7 @@ class DetailPageState extends State<DetailPage>{
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
-              color: Colors.black,
+              color: Colors.black45,
               decoration: TextDecoration.none
             )
           )
@@ -325,26 +313,36 @@ class DetailPageState extends State<DetailPage>{
 
   Widget movieReview(MovieModel model){
     return Container(
-      height: 250,
-      color: Colors.red,
+      height: 400,
+      
       margin: EdgeInsets.all(20),
       child: Column(  
-        
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '리뷰',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 30,
               color: Colors.black,
               decoration: TextDecoration.none
             ),
           ),
           Container(
-            height: 220,
+            height: 350,
             child: FutureBuilder<List<ReviewModel>>(
               future: fetchReview(model),
               builder: (context,snapshot){
-                return snapshot.hasData ? reviewListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
+                if(snapshot.hasError)
+                  return Text(
+                    '리뷰가 없습니다.',
+                     style: TextStyle(
+                      fontSize: 250,
+                      color: Colors.black,
+                      decoration: TextDecoration.none
+                    ),
+                  );
+                else
+                  return snapshot.hasData ? reviewListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
               },
             ),
           )
@@ -402,7 +400,7 @@ class DetailPageState extends State<DetailPage>{
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Colors.black45,
                   decoration: TextDecoration.none
                 )
               )
