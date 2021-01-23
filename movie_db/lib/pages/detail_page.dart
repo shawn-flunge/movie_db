@@ -129,7 +129,7 @@ class DetailPageState extends State<DetailPage>{
                   margin: EdgeInsets.symmetric(vertical: 5),
                   child:Row(
                     children: [
-                      transferAverageToStar(model.voteAverage),
+                      convertAverageToStar(model.voteAverage),
                       Padding(padding: EdgeInsets.symmetric(horizontal: 5),),
                       Text(
                         model.voteAverage.toString(),
