@@ -1,25 +1,19 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_db/const.dart';
+import 'package:movie_db/model/MovieModel.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -29,16 +23,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -50,47 +34,85 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
 
+  fetchMovie() async{
+
+    TMDB tmdb = TMDB(
+      ApiKeys(API_KEY,AUTH_TOKEN),
+      logConfig: ConfigLogger.showAll()
+    );
+
+    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
+    // print(await tmdb.v3.movies.getPouplar());
+    
+    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko');
+    var dynamicList = jsonData['results'];
+
+    print(dynamicList.length);
+    print(dynamicList[4]['title']);
+
+    List<MovieModel> lists = List<MovieModel>();
+
+    for(int i=0;i<dynamicList.length;i++){
+      lists.add(
+        MovieModel(
+          adult: dynamicList[i]['adult'],
+          backdrop_path: dynamicList[i]['backdrop_path'],
+          id: dynamicList[i]['id'],
+          original_language: dynamicList[i]['original_language'],
+          original_title: dynamicList[i]['original_title'],
+          overview: dynamicList[i]['overview'],
+          popularity: dynamicList[i]['popularity'],
+          poster_path: dynamicList[i]['poster_path'],
+          release_date: dynamicList[i]['release_date'],
+          title: dynamicList[i]['title'],
+          video: dynamicList[i]['video'],
+          vote_average: dynamicList[i]['vote_average'],
+          vote_count: dynamicList[i]['vote_count']
+        )
+      );
+      print(lists[i].title);
+    }
+
+
+
+    // var rr =await tmdb.v3.movies.getLists(560144);
+    // print(rr);
+    
+  }
+
+  fetchMovie2() async{
+    Dio dio = Dio();
+    var rr = await dio.get('http://api.themoviedb.org/3/movie/popular?api_key=$API_KEY');
+    print(rr.runtimeType);
+
+
+  }
+
+
+
+  @override
+  void initState() {
+    fetchMovie();
+    super.initState();
+    
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+
+    fetchMovie();
+    // fetchMovie2();
+
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -107,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
