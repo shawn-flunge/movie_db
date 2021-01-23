@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_db/const.dart';
 import 'package:movie_db/models/actor.dart';
 import 'package:movie_db/models/movie.dart';
+import 'package:movie_db/models/review.dart';
 import 'package:movie_db/providers/movie_provider.dart';
 import 'package:movie_db/widgets/custom_card.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +54,8 @@ class DetailPageState extends State<DetailPage>{
               children: [
                 movieInfo(movieProvider.selectedMovie),
                 movieOverview(movieProvider.selectedMovie),
-                movieCasting(movieProvider.selectedMovie)
+                movieCasting(movieProvider.selectedMovie),
+                movieReview(movieProvider.selectedMovie),
               ],
             )//ff(),
           ),
@@ -213,9 +215,10 @@ class DetailPageState extends State<DetailPage>{
     return lists;
   }
 
+  
+
   Widget movieCasting(MovieModel model){
     
-
     return Container(
       height: 250,
       color: Colors.red,
@@ -245,9 +248,7 @@ class DetailPageState extends State<DetailPage>{
     );
   }
 
-  Widget movieReview(MovieModel model){
-
-  }
+  
 
   Widget actorListView(List<ActorModel> lists){
     return ListView.builder(
@@ -298,7 +299,119 @@ class DetailPageState extends State<DetailPage>{
     );
   }
 
+  Future<List<ReviewModel>> fetchReview(MovieModel model) async{
+    TMDB tmdb = TMDB(
+      ApiKeys(API_KEY,AUTH_TOKEN),
+      logConfig: ConfigLogger.showNone()
+    );
+    var jsonData = await tmdb.v3.movies.getReviews(model.id);
+    var dynamicList = jsonData['results'];
+    List<ReviewModel> lists = List<ReviewModel>();
+
+    for(int i=0; i<dynamicList.length;i++){
+      var str ='';
+      if(dynamicList[i]['content'].length>70){
+        str = dynamicList[i]['content'].toString().substring(0,69)+'....';
+      }
+      lists.add(
+        ReviewModel(
+          author: dynamicList[i]['author'],
+          content: str
+        )
+      );
+    }
+    return lists;
+  }
+
+  Widget movieReview(MovieModel model){
+    return Container(
+      height: 250,
+      color: Colors.red,
+      margin: EdgeInsets.all(20),
+      child: Column(  
+        
+        children: [
+          Text(
+            '리뷰',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+              decoration: TextDecoration.none
+            ),
+          ),
+          Container(
+            height: 220,
+            child: FutureBuilder<List<ReviewModel>>(
+              future: fetchReview(model),
+              builder: (context,snapshot){
+                return snapshot.hasData ? reviewListView(snapshot.data) : SizedBox(width: 100,height: 100,child: CircularProgressIndicator(),);
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
   
+
+  Widget reviewListView(List<ReviewModel> lists){
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: lists.length,
+      itemBuilder: (context, index){
+        return Container(
+          height: 120,
+          margin: EdgeInsets.all(10),
+          child:reviewInfo(lists[index])
+        );
+      },
+    );
+  }
+
+  Widget reviewInfo(ReviewModel model){
+    print(model.author);
+    return Container(
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 2,
+          color: Colors.grey
+        ),
+        borderRadius: BorderRadius.all( Radius.circular(10), )
+      ),
+      // color: Colors.blue,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Text(
+              model.content,
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.black,
+                decoration: TextDecoration.none
+              )
+            ),
+          ),
+          Container(
+            child: Align(
+              alignment: FractionalOffset(1.0, 1.0),
+              child:Text(
+                model.author,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  decoration: TextDecoration.none
+                )
+              )
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   
 
 
