@@ -38,21 +38,18 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  fetchMovie() async{
+
+  fetchNowPlayingMovie() async{
 
     TMDB tmdb = TMDB(
       ApiKeys(API_KEY,AUTH_TOKEN),
       logConfig: ConfigLogger.showAll()
     );
-
     // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
     // print(await tmdb.v3.movies.getPouplar());
     
-    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko');
+    var jsonData = await tmdb.v3.movies.getNowPlaying(language: 'ko');
     var dynamicList = jsonData['results'];
-
-    print(dynamicList.length);
-    print(dynamicList[4]['title']);
 
     List<MovieModel> lists = List<MovieModel>();
 
@@ -74,29 +71,123 @@ class _MyHomePageState extends State<MyHomePage> {
           vote_count: dynamicList[i]['vote_count']
         )
       );
-      print(lists[i].title);
     }
-
-
-
-    // var rr =await tmdb.v3.movies.getLists(560144);
-    // print(rr);
     
   }
 
-  fetchMovie2() async{
-    Dio dio = Dio();
-    var rr = await dio.get('http://api.themoviedb.org/3/movie/popular?api_key=$API_KEY');
-    print(rr.runtimeType);
+  fetchUpComingMovie() async{
 
+    TMDB tmdb = TMDB(
+      ApiKeys(API_KEY,AUTH_TOKEN),
+      logConfig: ConfigLogger.showAll()
+    );
+    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
+    // print(await tmdb.v3.movies.getPouplar());
+    
+    var jsonData = await tmdb.v3.movies.getUpcoming(language: 'ko');
+    var dynamicList = jsonData['results'];
 
+    List<MovieModel> lists = List<MovieModel>();
+
+    for(int i=0;i<dynamicList.length;i++){
+      lists.add(
+        MovieModel(
+          adult: dynamicList[i]['adult'],
+          backdrop_path: dynamicList[i]['backdrop_path'],
+          id: dynamicList[i]['id'],
+          original_language: dynamicList[i]['original_language'],
+          original_title: dynamicList[i]['original_title'],
+          overview: dynamicList[i]['overview'],
+          popularity: dynamicList[i]['popularity'],
+          poster_path: dynamicList[i]['poster_path'],
+          release_date: dynamicList[i]['release_date'],
+          title: dynamicList[i]['title'],
+          video: dynamicList[i]['video'],
+          vote_average: dynamicList[i]['vote_average'],
+          vote_count: dynamicList[i]['vote_count']
+        )
+      );
+    }
+    
+  }
+
+  fetchPopularMovie() async{
+
+    TMDB tmdb = TMDB(
+      ApiKeys(API_KEY,AUTH_TOKEN),
+      logConfig: ConfigLogger.showAll()
+    );
+    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
+    // print(await tmdb.v3.movies.getPouplar());
+    
+    var jsonData = await tmdb.v3.movies.getPouplar(language: 'ko');
+    var dynamicList = jsonData['results'];
+
+    List<MovieModel> lists = List<MovieModel>();
+
+    for(int i=0;i<dynamicList.length;i++){
+      lists.add(
+        MovieModel(
+          adult: dynamicList[i]['adult'],
+          backdrop_path: dynamicList[i]['backdrop_path'],
+          id: dynamicList[i]['id'],
+          original_language: dynamicList[i]['original_language'],
+          original_title: dynamicList[i]['original_title'],
+          overview: dynamicList[i]['overview'],
+          popularity: dynamicList[i]['popularity'],
+          poster_path: dynamicList[i]['poster_path'],
+          release_date: dynamicList[i]['release_date'],
+          title: dynamicList[i]['title'],
+          video: dynamicList[i]['video'],
+          vote_average: dynamicList[i]['vote_average'],
+          vote_count: dynamicList[i]['vote_count']
+        )
+      );
+    }
+    
+  }
+
+  fetchTopRatedMovie() async{
+
+    TMDB tmdb = TMDB(
+      ApiKeys(API_KEY,AUTH_TOKEN),
+      logConfig: ConfigLogger.showAll()
+    );
+    // print(await tmdb.v3.movies.getPouplar(language:'ko',page: 3,region: 'KR'));
+    // print(await tmdb.v3.movies.getPouplar());
+    
+    var jsonData = await tmdb.v3.movies.getTopRated(language: 'ko');
+    var dynamicList = jsonData['results'];
+
+    List<MovieModel> lists = List<MovieModel>();
+
+    for(int i=0;i<dynamicList.length;i++){
+      lists.add(
+        MovieModel(
+          adult: dynamicList[i]['adult'],
+          backdrop_path: dynamicList[i]['backdrop_path'],
+          id: dynamicList[i]['id'],
+          original_language: dynamicList[i]['original_language'],
+          original_title: dynamicList[i]['original_title'],
+          overview: dynamicList[i]['overview'],
+          popularity: dynamicList[i]['popularity'],
+          poster_path: dynamicList[i]['poster_path'],
+          release_date: dynamicList[i]['release_date'],
+          title: dynamicList[i]['title'],
+          video: dynamicList[i]['video'],
+          vote_average: dynamicList[i]['vote_average'],
+          vote_count: dynamicList[i]['vote_count']
+        )
+      );
+    }
+    
   }
 
 
 
   @override
   void initState() {
-    fetchMovie();
+    fetchPopularMovie();
     super.initState();
     
   }
@@ -104,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    fetchMovie();
+    fetchPopularMovie();
     // fetchMovie2();
 
     return Scaffold(
